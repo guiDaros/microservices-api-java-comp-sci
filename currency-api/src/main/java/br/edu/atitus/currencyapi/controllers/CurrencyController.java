@@ -3,6 +3,7 @@ package br.edu.atitus.currencyapi.controllers;
 import br.edu.atitus.currencyapi.dtos.CurrencyResponse;
 import br.edu.atitus.currencyapi.services.CurrencyService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class CurrencyController {
 
     private final CurrencyService service;
 
-    public CurrencyController(CurrencyService service) {
+    public CurrencyController(@Qualifier("currencyServiceJpa") CurrencyService service) {
         this.service = service;
     }
 

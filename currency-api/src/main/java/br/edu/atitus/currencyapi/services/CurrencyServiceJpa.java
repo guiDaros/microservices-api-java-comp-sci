@@ -1,14 +1,13 @@
-package br.edu.atitus.currencyapi.servicesimpl;
+package br.edu.atitus.currencyapi.services;
 
 import br.edu.atitus.currencyapi.dtos.CurrencyResponse;
 import br.edu.atitus.currencyapi.entities.CurrencyEntity;
 import br.edu.atitus.currencyapi.repositories.CurrencyRepository;
-import br.edu.atitus.currencyapi.services.CurrencyService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service("currencyServiceJpa")
 public class CurrencyServiceJpa implements CurrencyService {
 
     private final CurrencyRepository repository;
@@ -17,7 +16,7 @@ public class CurrencyServiceJpa implements CurrencyService {
         this.repository = repository;
     }
 
-    @Value("${server.port:8080}")
+    @Value("${server.port:8100}")
     private String serverPort;
 
     @Override
