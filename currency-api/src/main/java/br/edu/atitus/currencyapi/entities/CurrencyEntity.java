@@ -7,11 +7,16 @@ import jakarta.persistence.*;
 public class CurrencyEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "source_currency")
     private String sourceCurrency;
+
+    @Column(name = "target_currency")
     private String targetCurrency;
+
+    @Column(name = "conversion_rate")
     private Double conversionRate;
 
     public CurrencyEntity() {
