@@ -1,7 +1,0 @@
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/CurrencyApiApplication.java
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/controllers/CurrencyController.java
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/dtos/CurrencyResponse.java
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/entities/CurrencyEntity.java
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/repositories/CurrencyRepository.java
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/services/CurrencyService.java
-/home/guilherme-daros/IdeaProjects/ParadLingProg_202602/microservices/currency-api/src/main/java/br/edu/atitus/currencyapi/servicesimpl/CurrencyServiceJpa.java

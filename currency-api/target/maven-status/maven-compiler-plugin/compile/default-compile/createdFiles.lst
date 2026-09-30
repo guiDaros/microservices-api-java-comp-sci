@@ -1,7 +1,0 @@
-br/edu/atitus/currencyapi/servicesimpl/CurrencyServiceJpa.class
-br/edu/atitus/currencyapi/controllers/CurrencyController.class
-br/edu/atitus/currencyapi/dtos/CurrencyResponse.class
-br/edu/atitus/currencyapi/services/CurrencyService.class
-br/edu/atitus/currencyapi/entities/CurrencyEntity.class
-br/edu/atitus/currencyapi/repositories/CurrencyRepository.class
-br/edu/atitus/currencyapi/CurrencyApiApplication.class
