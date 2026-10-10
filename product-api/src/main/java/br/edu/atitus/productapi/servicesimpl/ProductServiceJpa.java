@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 public class ProductServiceJpa implements ProductService {
 
     private final ProductRepository repository;
+    private final CurrencyClientService currencyClientService;
 
-    public ProductServiceJpa(ProductRepository repository) {
+    public ProductServiceJpa(ProductRepository repository, CurrencyClientService currencyClientService) {
         this.repository = repository;
+        this.currencyClientService = currencyClientService;
     }
 
     @Value("${server.port:8080}")
@@ -31,34 +33,40 @@ public class ProductServiceJpa implements ProductService {
     public ProductResponse findById(Long id, String targetCurrency) throws Exception {
         var product = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
-        String environment = "Product API running in port " + serverPort;
-        return ProductResponse.fromEntity(
-                product,
-                environment,
-                promotionMessage,
-                targetCurrency,
-                0
-        );
+        return toResponse(product, targetCurrency);
     }
 
     @Override
     public Page<ProductResponse> findAll(Pageable pageable, String targetCurrency) throws Exception {
         var products = repository.findAll(pageable);
-        String environment = "Product API running in port " + serverPort;
-
-        return products.map(
-                entity -> ProductResponse.fromEntity(
-                        entity,
-                        environment,
-                        promotionMessage,
-                        targetCurrency,
-                        0
-                )
-        );
+        return products.map(entity -> toResponse(entity, targetCurrency));
     }
 
     @Override
     public ProductEntity save(ProductRequest request) throws Exception {
         return null;
+    }
+
+    private ProductResponse toResponse(ProductEntity entity, String targetCurrency) {
+        String environment = "Product API running in port " + serverPort;
+        double convertedPrice;
+
+        // Fallback: se a cotacao falhar, o produto ainda e retornado com convertedPrice = -1
+        try {
+            var currency = currencyClientService.getCurrency(entity.getCurrency(), targetCurrency);
+            convertedPrice = entity.getPrice() * currency.conversionRate();
+            environment += " - " + currency.environment();
+        } catch (Exception e) {
+            convertedPrice = -1;
+            environment += " - ERROR: " + e.getMessage();
+        }
+
+        return ProductResponse.fromEntity(
+                entity,
+                environment,
+                promotionMessage,
+                targetCurrency,
+                convertedPrice
+        );
     }
 }
