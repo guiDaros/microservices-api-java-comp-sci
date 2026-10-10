@@ -26,10 +26,10 @@ private String serverPort;
 private String promotionMessage;
 
 public ProductServiceMock() {
-    this.database.add(new ProductEntity(1L, "iPhone 15 128GB", "Apple", "iPhone 15", "USD", 799.00, "http://image.com/image.jpg"));
-    this.database.add(new ProductEntity(2L, "iPhone 15 Pro 256GB", "Apple", "iPhone 15 Pro", "USD", 1099.00, "http://image.com/image.jpg"));
-    this.database.add(new ProductEntity(3L, "Galaxy S24 256GB", "Samsung", "Galaxy S24", "USD", 859.00, "http://image.com/image.jpg"));
-    this.database.add(new ProductEntity(4L, "Galaxy S24 Ultra 512GB", "Samsung", "Galaxy S24 Ultra", "USD", 1299.00, "http://image.com/image.jpg"));
+    this.database.add(new ProductEntity(1L, "Apple", "iPhone 15", "iPhone 15 128GB", "USD", 799.00, "http://image.com/image.jpg"));
+    this.database.add(new ProductEntity(2L, "Apple", "iPhone 15 Pro", "iPhone 15 Pro 256GB", "USD", 1099.00, "http://image.com/image.jpg"));
+    this.database.add(new ProductEntity(3L, "Samsung", "Galaxy S24", "Galaxy S24 256GB", "USD", 859.00, "http://image.com/image.jpg"));
+    this.database.add(new ProductEntity(4L, "Samsung", "Galaxy S24 Ultra", "Galaxy S24 Ultra 512GB", "USD", 1299.00, "http://image.com/image.jpg"));
 }
 
 @Override

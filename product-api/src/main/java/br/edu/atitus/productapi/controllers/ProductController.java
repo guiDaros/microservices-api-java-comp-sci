@@ -6,9 +6,12 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestController
 @RequestMapping("products")
@@ -41,6 +44,18 @@ public class ProductController {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> entityNotFoundExceptionHandler(EntityNotFoundException ex){
         return ResponseEntity.status(404).body(ex.getMessage());
+    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<String> missingParameterExceptionHandler(MissingServletRequestParameterException ex){
+        return ResponseEntity.status(400).body("Parâmetro obrigatório ausente: " + ex.getParameterName());
+    }
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> typeMismatchExceptionHandler(MethodArgumentTypeMismatchException ex){
+        return ResponseEntity.status(400).body("Valor inválido para o parâmetro: " + ex.getName());
+    }
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<String> invalidSortExceptionHandler(PropertyReferenceException ex){
+        return ResponseEntity.status(400).body("Parâmetro de ordenação inválido: " + ex.getPropertyName());
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> exceptionHandler(Exception ex){

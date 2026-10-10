@@ -7,6 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Locale;
+
 @Service("currencyServiceJpa")
 public class CurrencyServiceJpa implements CurrencyService {
 
@@ -24,7 +26,9 @@ public class CurrencyServiceJpa implements CurrencyService {
             String sourceCurrency,
             String targetCurrency
     ) throws Exception {
-        CurrencyEntity entity = repository.findBySourceCurrencyAndTargetCurrency(sourceCurrency, targetCurrency)
+        CurrencyEntity entity = repository.findBySourceCurrencyAndTargetCurrency(
+                        normalizeCode(sourceCurrency),
+                        normalizeCode(targetCurrency))
                 .orElseThrow(() -> new EntityNotFoundException("Cotação não encontrada"));
 
         String environment = "Currency API running in Port: " + serverPort;
@@ -35,5 +39,10 @@ public class CurrencyServiceJpa implements CurrencyService {
                 entity.getConversionRate(),
                 environment
         );
+    }
+
+    // Códigos ISO 4217 são armazenados em maiúsculas (CHAR(3)); "usd" e " USD " devem encontrar "USD".
+    private static String normalizeCode(String code) {
+        return code == null ? null : code.trim().toUpperCase(Locale.ROOT);
     }
 }

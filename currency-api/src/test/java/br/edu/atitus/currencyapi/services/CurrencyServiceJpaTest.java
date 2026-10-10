@@ -48,4 +48,33 @@ class CurrencyServiceJpaTest {
 
         assertEquals("Cotação não encontrada", exception.getMessage());
     }
+
+    @Test
+    void normalizesCurrencyCodesBeforeQuerying() throws Exception {
+        CurrencyRepository repository = mock(CurrencyRepository.class);
+        CurrencyServiceJpa service = new CurrencyServiceJpa(repository);
+        ReflectionTestUtils.setField(service, "serverPort", "8100");
+        CurrencyEntity currency = new CurrencyEntity(1L, "USD", "BRL", 5.15);
+        when(repository.findBySourceCurrencyAndTargetCurrency("USD", "BRL"))
+                .thenReturn(Optional.of(currency));
+
+        CurrencyResponse response = service.findBySourceCurrencyAndTargetCurrency(" usd ", "Brl");
+
+        assertEquals("USD", response.sourceCurrency());
+        assertEquals("BRL", response.targetCurrency());
+        assertEquals(5.15, response.conversionRate());
+    }
+
+    @Test
+    void doesNotInferInversePairs() {
+        CurrencyRepository repository = mock(CurrencyRepository.class);
+        CurrencyServiceJpa service = new CurrencyServiceJpa(repository);
+        when(repository.findBySourceCurrencyAndTargetCurrency("BRL", "USD"))
+                .thenReturn(Optional.empty());
+
+        assertThrows(
+                EntityNotFoundException.class,
+                () -> service.findBySourceCurrencyAndTargetCurrency("BRL", "USD")
+        );
+    }
 }

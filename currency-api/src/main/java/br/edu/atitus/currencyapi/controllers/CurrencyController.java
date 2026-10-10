@@ -5,6 +5,7 @@ import br.edu.atitus.currencyapi.services.CurrencyService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,6 +30,11 @@ public class CurrencyController {
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<String> entityNotFoundExceptionHandler(EntityNotFoundException ex) {
         return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<String> missingParameterExceptionHandler(MissingServletRequestParameterException ex) {
+        return ResponseEntity.status(400).body("Parâmetro obrigatório ausente: " + ex.getParameterName());
     }
 
     @ExceptionHandler(Exception.class)
